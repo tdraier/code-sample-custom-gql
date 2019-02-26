@@ -22,7 +22,7 @@ public class RenderTreeFilter extends AbstractFilter {
 
     @Override
     public String prepare(RenderContext renderContext, Resource resource, RenderChain chain) throws Exception {
-        if (!resource.getNode().getPath().startsWith("/modules")) {
+//        if (!resource.getNode().getPath().startsWith("/modules")) {
             Map<Resource, List<Resource>> resourcesMap = (Map<Resource, List<Resource>>) renderContext.getRequest().getAttribute("gqlRenderChildren");
             Resource parentResource = (Resource) renderContext.getRequest().getAttribute("parentResource");
 
@@ -32,7 +32,7 @@ public class RenderTreeFilter extends AbstractFilter {
                 resourcesMap.put(resource, new ArrayList<>());
                 chain.pushAttribute(renderContext.getRequest(), "parentResource", resource);
             }
-        }
+//        }
         return super.prepare(renderContext, resource, chain);
     }
 

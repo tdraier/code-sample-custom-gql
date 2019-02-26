@@ -90,7 +90,7 @@ public class RenderTreeNodeExtension {
 
                 response.setCharacterEncoding(SettingsBean.getInstance().getCharacterEncoding());
 
-                renderService.render(r, renderContext);
+               String html = renderService.render(r, renderContext);
 
                 List<Resource> resources = resourcesMap.get(null);
                 for (Resource resource : resources) {
@@ -115,4 +115,20 @@ public class RenderTreeNodeExtension {
         }
     }
 
+
+    @GraphQLField
+    public String getParentPathInTemplate(DataFetchingEnvironment environment) {
+        HttpServletRequest request = ((GraphQLContext) environment.getContext()).getRequest().get();
+
+        Map<Resource, List<Resource>> map = (Map<Resource, List<Resource>>) request.getAttribute("gqlRenderChildren");
+
+        for (Map.Entry<Resource, List<Resource>> entry : map.entrySet()) {
+            for (Resource resource :  entry.getValue()) {
+                if (resource.getNode().getPath().equals(node.getPath()) && entry.getKey() != null) {
+                    return entry.getKey().getNode().getPath();
+                }
+            }
+        }
+        return "";
+    }
 }
